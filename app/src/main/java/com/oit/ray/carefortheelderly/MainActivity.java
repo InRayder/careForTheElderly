@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity
         openGPS(this);
 
         tvWeather = (TextView) findViewById(R.id.tvWeather);
-        thread_showWeather();
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -354,6 +354,8 @@ public class MainActivity extends AppCompatActivity
                 Uri.parse("android-app://com.oit.ray.carefortheelderly/http/host/path")
         );
         AppIndex.AppIndexApi.start(client, viewAction);
+
+        thread_showWeather();
     }
 
     @Override
