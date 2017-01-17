@@ -83,6 +83,19 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/checkAutoLogin"
+                    android:text="記住我(下次開啟自動登入)" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

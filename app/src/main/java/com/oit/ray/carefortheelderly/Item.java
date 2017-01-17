@@ -7,7 +7,7 @@ package com.oit.ray.carefortheelderly;
 public class Item implements java.io.Serializable {
 
 
-//  編號、身分證字號、電子信箱、姓名、生日、性別、註冊日期、照片、使用址電話、使用者地址、緊急人姓名、緊急人電話、緊急人地址
+//  編號、身分證字號、電子信箱、姓名、生日、性別、註冊日期、照片、使用址電話、使用者地址、緊急人姓名、緊急人電話、緊急人地址、自動登入
     private Long id;
     private String idcard;
     private String email;
@@ -21,13 +21,14 @@ public class Item implements java.io.Serializable {
     private String ICE_name;
     private String ICE_phone;
     private String ICE_address;
+    private Integer autoLogin;
 
     public Item() {
     }
 
     public Item(Long id, String idcard, String email, String name, String birthday, String sex,
                 String registration_date, String photo, String user_phone, String user_address,
-                String ICE_name, String ICE_phone, String ICE_address) {
+                String ICE_name, String ICE_phone, String ICE_address,Integer autoLogin) {
         this.id = id;
         this.idcard = idcard;
         this.email = email;
@@ -41,6 +42,7 @@ public class Item implements java.io.Serializable {
         this.ICE_name = ICE_name;
         this.ICE_phone = ICE_phone;
         this.ICE_address = ICE_address;
+        this.autoLogin = autoLogin;
     }
 
     public Long getId() {
@@ -145,5 +147,13 @@ public class Item implements java.io.Serializable {
 
     public void setICE_address(String ICE_address) {
         this.ICE_address = ICE_address;
+    }
+
+    public Integer getAutoLogin() {
+        return autoLogin;
+    }
+
+    public void setAutoLogin(Integer autoLogin) {
+        this.autoLogin = autoLogin;
     }
 }

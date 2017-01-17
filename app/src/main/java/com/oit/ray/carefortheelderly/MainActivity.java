@@ -2,6 +2,7 @@ package com.oit.ray.carefortheelderly;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -329,11 +330,52 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_logout) {
+            dialog_logout();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //確認是否登出視窗
+    protected void dialog_logout(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("登出");
+        builder.setMessage("是否登出?");
+        builder.setPositiveButton("是(登出)", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 建立資料庫物件
+                itemDAO = new ItemDAO(getApplicationContext());
+                item = itemDAO.get(Long.valueOf(1));
+                item.setAutoLogin(0);//取消自動登入
+                System.out.println("getAutoLogin(A)"+item.getAutoLogin());
+                itemDAO.update(item);
+
+//                  產生Inter物件
+                Intent intent = new Intent();
+//                  指定從LoginActivity切換至MainActivity
+                intent.setClass(MainActivity.this, LoginActivity.class);
+//                  啟動指定之Actitivy
+                startActivity(intent);
+//                  結束目前執行的Actitivy
+                MainActivity.this.finish();
+                dialog.dismiss();
+
+            }
+        });
+        builder.setNegativeButton("否(不登出)", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+
+            }
+        });
+        builder.setCancelable(false);//點擊非對話框區域對話框不消失
+        builder.create().show();
     }
 
     @Override

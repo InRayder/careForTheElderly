@@ -31,6 +31,7 @@ public class ItemDAO {
     public static final String ICENAME_COLUMN = "ICE_name";
     public static final String ICEPHONE_COLUMN = "ICE_phone";
     public static final String ICEADDRESS_COLUMN = "ICE_address";
+    public static final String AUTOLOGIN = "AutoLogin";
 //  使用上面宣告的變數建立表格的SQL指令
     public static final String CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
@@ -46,7 +47,8 @@ public class ItemDAO {
                 USERADDRESS_COLUMN  + " TEXT NOT NULL, " +
                 ICENAME_COLUMN  + " TEXT NOT NULL, " +
                 ICEPHONE_COLUMN  + " TEXT NOT NULL, " +
-                ICEADDRESS_COLUMN  + " TEXT NOT NULL)" ;
+                ICEADDRESS_COLUMN  + " TEXT NOT NULL, " +
+                AUTOLOGIN  + " INTEGER NOT NULL)" ;
 //  資料庫物件
     private SQLiteDatabase db;
 
@@ -77,6 +79,7 @@ public class ItemDAO {
         cv.put(ICENAME_COLUMN, item.getICE_name());
         cv.put(ICEPHONE_COLUMN, item.getICE_phone());
         cv.put(ICEADDRESS_COLUMN, item.getICE_address());
+        cv.put(AUTOLOGIN, item.getAutoLogin());
 
 //      新增一筆資料並取得編號
 //      第一個參數是表格名稱
@@ -108,6 +111,7 @@ public class ItemDAO {
         cv.put(ICENAME_COLUMN, item.getICE_name());
         cv.put(ICEPHONE_COLUMN, item.getICE_phone());
         cv.put(ICEADDRESS_COLUMN, item.getICE_address());
+        cv.put(AUTOLOGIN, item.getAutoLogin());
 
 //      設定修改資料的條件為編號
 //      格式為"欄位名稱=資料"
@@ -186,6 +190,7 @@ public class ItemDAO {
         result.setICE_name(cursor.getString(10));
         result.setICE_phone(cursor.getString(11));
         result.setICE_address(cursor.getString(12));
+        result.setAutoLogin(cursor.getInt(13));
 
 //      回傳結果
         return result;

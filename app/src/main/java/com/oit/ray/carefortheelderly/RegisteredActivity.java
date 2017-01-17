@@ -89,7 +89,7 @@ public class RegisteredActivity extends AppCompatActivity {
 
 
 //      呼叫Item
-        item = new Item(Long.valueOf(0),idcard,email,name,birthday,sex,dts,photo,user_phone,user_address,ICE_name,ICE_phone,ICE_address);
+        item = new Item(Long.valueOf(0),idcard,email,name,birthday,sex,dts,photo,user_phone,user_address,ICE_name,ICE_phone,ICE_address,0);
         itemDAO.insert(item);
 
         try {

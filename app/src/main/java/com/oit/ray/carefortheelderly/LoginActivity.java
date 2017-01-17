@@ -28,6 +28,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -37,7 +38,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.Manifest.permission.MASTER_CLEAR;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // UI引用。
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private CheckBox cAutoLogin;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -100,6 +101,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
+        cAutoLogin = (CheckBox)findViewById(R.id.checkAutoLogin);
+
+
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         Button mRegistrationButton = (Button) findViewById(R.id.registration_button);
@@ -130,6 +134,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        IsSetAutoLoin();
+    }
+
+    private void IsSetAutoLoin(){
+        // 建立資料庫物件
+        itemDAO = new ItemDAO(getApplicationContext());
+        item = itemDAO.get(Long.valueOf(1));
+        if(itemDAO.get(Long.valueOf(1)) != null){
+            int AutoLogin = item.getAutoLogin();
+            System.out.println("getAutoLogin(L)"+item.getAutoLogin());
+            if(AutoLogin == 1){
+                System.out.println("自動登入成功!");
+//                  產生Inter物件
+                Intent intent = new Intent();
+//                  指定從LoginActivity切換至MainActivity
+                intent.setClass(LoginActivity.this, MainActivity.class);
+//                  啟動指定之Actitivy
+                startActivity(intent);
+//                  結束目前執行的Actitivy
+                LoginActivity.this.finish();
+            }
+        }
+
     }
 
     private void populateAutoComplete() {
@@ -189,7 +216,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (mAuthTask != null) {
             return;
         }
-
+        int autoLogin = 0;
         // Reset errors.
         // 重置錯誤。
         mEmailView.setError(null);
@@ -199,6 +226,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // 在登錄嘗試時存儲值。
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        if(cAutoLogin.isChecked()){
+            autoLogin = 1;
+        }
+
 
         boolean cancel = false;
         View focusView = null;
@@ -233,7 +264,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             // 顯示進度微調器，並啟動後台任務以執行用戶登錄嘗試。
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, autoLogin);
             mAuthTask.execute((Void) null);
 /*
 //          產生Inter物件
@@ -365,10 +396,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private final int mAutoLogin;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, int mAutoLogin) {
             mEmail = email;
             mPassword = password;
+            this.mAutoLogin = mAutoLogin;
         }
 
         @Override
@@ -382,7 +415,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 System.out.println(trueR);
 
                 if(!trueR.equals("null")){
-                    //      呼叫SQLite
+                    //呼叫SQLite
                     itemDAO = new ItemDAO(getApplicationContext());
                     itemDAO.deleteAll();
 
@@ -403,7 +436,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     ICE_phone = jsonData.getString("ICE_phone");
                     ICE_address = jsonData.getString("ICE_address");
 //                  呼叫Item
-                    item = new Item(Long.valueOf(0),idcard,email,name,birthday,sex,registration_date,photo,user_phone,user_address,ICE_name,ICE_phone,ICE_address);
+                    item = new Item(Long.valueOf(0),idcard,email,name,birthday,sex,registration_date,photo,user_phone,user_address,ICE_name,ICE_phone,ICE_address,mAutoLogin);
                     itemDAO.insert(item);
 
 //                  產生Inter物件
