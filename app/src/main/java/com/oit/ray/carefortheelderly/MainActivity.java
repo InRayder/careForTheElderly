@@ -332,6 +332,15 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout) {
             dialog_logout();
+        } else if (id == R.id.nav_safeMap) {
+//          產生Inter物件
+            Intent intent = new Intent();
+//          指定從LoginActivity切換至MainActivity
+            intent.setClass(MainActivity.this, safeMapActivity.class);
+//          啟動指定之Actitivy
+            startActivity(intent);
+//          結束目前執行的Actitivy
+            MainActivity.this.finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -19,6 +19,9 @@
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools" />
+        <item android:title="safeMap"
+            android:id="@+id/nav_safeMap"
+            android:icon="@drawable/ic_menu_safemap" />
         <item android:title="Logout"
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_logout" />
